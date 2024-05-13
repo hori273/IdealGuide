@@ -16,8 +16,11 @@ service CatalogService{
     entity HISTORY as projection on datamodel.HISTORY;
     entity EXCHANGE_RATES as projection on datamodel.EXCHANGE_RATES;
 
-    function fidelityBonus() returns Double;
+    function fidelityBonus(userEmail:String, placeId:String) returns Double;
     function exchange() returns Double;
     function getRecommendedForUser() returns String;
     function testEntity() returns String;
+    function insertReservationHousing(placeId:String, nrPersons:Integer, nrNights:Integer, price:Integer) returns String;
+    //function insertReservationHousing(clientEmail:String, nrPersons:Integer, nrNights:Integer, price:Integer) returns String;
+    //function insertReservationHousing() returns String;
 }

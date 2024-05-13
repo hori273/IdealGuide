@@ -1,0 +1,80 @@
+<mvc:View
+    controllerName="idealguidefe1.controller.InvoiceList"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+>
+    <Table
+        id="invoiceList"
+        class="sapUiResponsiveMargin"
+        width="auto"
+        items="{
+         path : '/HOUSING',
+         sorter : {
+                path : 'PRICE_PER_NIGHT'
+            }
+        }"
+    >
+        <headerToolbar>
+            <Toolbar>
+                <Title text="{i18n>invoiceListTitle}" />
+                <ToolbarSpacer />
+                <Button text="Toggle Model" press=".onToggleModel" />
+                <ToolbarSpacer />
+                <SearchField
+                    width="50%"
+                    search=".onFilterInvoices"
+                />
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column>
+                <Text text="{i18n>columnName}" />
+            </Column>
+            <Column
+                minScreenWidth="Tablet"
+                demandPopin="false"
+            >
+                <Text text="{i18n>columnStars}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnPrice}" />
+            </Column>
+        </columns>
+        <items>
+            <ObjectListItem
+                title="{NAME} {STARS}*"
+                number="{PRICE_PER_NIGHT}"
+                type="Navigation"
+                press=".onPress"
+            />
+        </items>
+        <items>
+            <ColumnListItem
+                type="Navigation"
+                press=".onPress"
+            >
+                <cells>
+                    <ObjectIdentifier title="{NAME}" />
+                    <RatingIndicator
+                        value="{STARS}"
+                        maxValue="5"
+                        editable="false"
+                    />
+                    <ObjectNumber
+                        number="{
+								parts: [
+									'PRICE_PER_NIGHT',
+									'view>/currency'
+								],
+								type: 'sap.ui.model.type.Currency',
+								formatOptions: {
+									showMeasure: false
+								}
+							}"
+                        unit="{view>/currency}"
+                    />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</mvc:View>

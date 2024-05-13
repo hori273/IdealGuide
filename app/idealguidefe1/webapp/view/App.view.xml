@@ -1,0 +1,11 @@
+<mvc:View
+    controllerName="idealguidefe1.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m">   
+	<Shell>
+        <App
+            class="myAppDemoWT"
+            id="app"/>
+    </Shell>
+</mvc:View>

@@ -35,10 +35,40 @@ modules:
       name: srv-api
       url: ~{srv-url}
   - name: IdealGuide-auth
+  - name: IdealGuide-destination-service
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
   parameters:
     disk-quota: 256M
     keep-existing-routes: true
     memory: 256M
+- name: IdealGuide-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: IdealGuide_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - idealguidefe1.zip
+      name: idealguidefe1
+      target-path: resources/
+- name: idealguidefe1
+  type: html5
+  path: app/idealguidefe1
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
 - name: IdealGuide-auth
   type: org.cloudfoundry.managed-service
@@ -59,7 +89,26 @@ resources:
   parameters:
     service: html5-apps-repo
     service-plan: app-host
+- name: IdealGuide-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: IdealGuide-destination-service
+    service-plan: lite
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:

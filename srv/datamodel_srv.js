@@ -33,10 +33,10 @@ module.exports = cds.service.impl(async function () {
     this.on("fidelityBonus", async (req) => {
         try {
             const tx = cds.transaction(req);
-            let sUserEmail = 'hori6c@gmail.com';
-            let sPlaceId = '37DE1000-DB99-42BE-1800-91FA0E1991E0';
-            //let sUserEmail = req.data.userEmail;
-            //let sPlaceId = req.data.placeId;
+            //let sUserEmail = 'hori6c@gmail.com';
+            //let sPlaceId = '37DE1000-DB99-42BE-1800-91FA0E1991E0';
+            let sUserEmail = req.data.userEmail;
+            let sPlaceId = req.data.placeId;
 
             let qReservations = SELECT.from(HOUSING_RESERVATIONS).where({ CLIENT_EMAIL: sUserEmail, PLACE_ID_ID: sPlaceId, STATUS: 'approved' })
             const aReservations = await tx.run(
@@ -89,7 +89,7 @@ module.exports = cds.service.impl(async function () {
 
     this.on("getRecommendedForUser", async (req) => {
         const tx = cds.transaction(req);
-        let sUserEmail = 'hori6c@gmail.com';
+        let sUserEmail = 'andrei.kalman@nttdata.com';
         let iTotalNumber = 3;
         //let sUserEmail = req.data.userEmail;
         //let iTotalNumber = req.data.iTotalNumber;
@@ -131,6 +131,40 @@ module.exports = cds.service.impl(async function () {
             aSlicedHotelsWithoutReservations = aHotelsWithoutReservations.slice(0, iTotalNumber);
 
         return JSON.stringify(aSlicedHotelsWithoutReservations);
+    });
+
+    this.on("insertReservationHousing", async (req) => {
+        const tx = cds.transaction(req);
+        const { uuid } = cds.utils;
+        let id = uuid();
+        let id2=uuid();
+
+        let sClientEmail='andrei.kalman@nttdata.com';
+        //let sClientEmail = req.data.clientEmail;
+        //let uPlaceId='37DE1000-DB99-42BE-1800-91FA0E1991E0';
+        let uPlaceId = req.data.placeId;
+        //let iNrPersons=2;
+        let iNrPersons = req.data.nrPersons;
+        //let iNrNights=2;
+        let iNrNights = req.data.nrNights;
+        //let iPrice=150;
+        let iPrice = req.data.price;
+
+        let sStatus = 'pending';
+        let dDateTime = new Date;
+        let sReturn='success';
+
+         await tx.run(INSERT.into(HOUSING_RESERVATIONS).columns(
+            'ID',
+            'CLIENT_EMAIL',
+            'PLACE_ID_ID',
+            'NR_PERSONS',
+            'NR_NIGHTS',
+            'DATE_TIME',
+            'TOTAL_PRICE',
+            'STATUS').rows(
+                [id, sClientEmail, uPlaceId, iNrPersons, iNrNights, dDateTime, iPrice, sStatus]))
+         return sReturn;
     });
 
 });           

@@ -1,0 +1,27 @@
+<mvc:View
+	controllerName="idealguidefe1.controller.Detail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:wt="idealguidefe1.control">
+	<Page
+		title="{i18n>detailPageTitle}"
+		showNavButton="true"
+		navButtonPress=".onNavBack">
+		<ObjectHeader 
+			responsive="true"
+            fullScreenOptimized="true"
+			intro="{STARS}" 
+			title="{NAME}">
+			<attributes>
+                <ObjectAttribute
+                    title="{i18n>phoneNumber}"
+                    text="{PHONE}"/>
+        	</attributes>
+		</ObjectHeader>
+		<wt:ProductRating 
+			id="rating" 
+			class="sapUiSmallMarginBeginEnd" 
+			change=".onRatingChange"/>
+		<Button text="Create a reservation" press=".onGoToReservation"/>
+	</Page>
+</mvc:View>

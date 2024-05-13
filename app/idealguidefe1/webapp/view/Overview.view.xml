@@ -1,0 +1,12 @@
+<mvc:View
+    controllerName="idealguidefe1.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m">
+	<Page title="{i18n>homePageTitle}">				
+        <content>
+			<mvc:XMLView viewName="idealguidefe1.view.HelloPanel"/>
+			<mvc:XMLView viewName="idealguidefe1.view.InvoiceList"/>
+		</content>
+	</Page>
+</mvc:View>

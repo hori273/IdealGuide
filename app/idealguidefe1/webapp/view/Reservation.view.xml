@@ -1,0 +1,101 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    controllerName="idealguidefe1.controller.Reservation">
+    <VBox class="sapUiSmallMargin">
+        <f:Form
+            id="FormToolbar"
+            editable="true"
+            ariaLabelledBy="Title1">
+            <f:toolbar>
+                <Toolbar id="TB1"
+                showNavButton="true"
+		        navButtonPress=".onNavBack">
+                    <Title
+                        id="Title1"
+                        text="Reservation Details"/>
+                </Toolbar>
+            </f:toolbar>
+            <f:layout>
+                <f:ResponsiveGridLayout
+                    labelSpanXL="4"
+                    labelSpanL="3"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0"
+                    emptySpanL="4"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="2"
+                    columnsL="1"
+                    columnsM="1"
+                    singleContainerFullSize="false"/>
+            </f:layout>
+            <f:formContainers>
+                <f:FormContainer ariaLabelledBy="Title2">
+                    <f:formElements>
+                        <f:FormElement label="Number of People">
+                            <f:fields>
+                                <Input
+                                    value="{/numberOfPeople}"
+                                    type="Number"
+                                    id="numberOfPeople"
+                                    change=".calculateNights"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="Check-in Date">
+                            <f:fields>
+                                <DatePicker
+                                    value="{/checkInDate}"
+                                    id="checkInDate"
+                                    change=".calculateNights"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="Check-out Date">
+                            <f:fields>
+                                <DatePicker
+                                    value="{/checkOutDate}"
+                                    id="checkOutDate"
+                                    change=".calculateNights"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="Total Price">
+                            <f:fields>
+                                <Input
+                                    value="{/totalPrice}"
+                                    editable="false"
+                                    id="totalPrice"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="Number of Nights">
+                            <f:fields>
+                                <Input
+                                    value="{/numberOfNights}"
+                                    editable="false"
+                                    id="numberOfNights"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="">
+                            <f:fields>
+                                <Button 
+                                    text="Apply Fidelity Bonus"
+                                    press=".onApplyFidelityBonus"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="">
+                            <f:fields>
+                                <Button 
+                                    text="Submit Reservation"
+                                    press="onFunctionCall"/>
+                            </f:fields>
+                        </f:FormElement>
+                    </f:formElements>
+                </f:FormContainer>
+            </f:formContainers>
+        </f:Form>
+    </VBox>
+</mvc:View>
