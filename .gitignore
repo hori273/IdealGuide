@@ -37,3 +37,7 @@ mta_archives/
 db/.env
 # auto generated wildcard
 .env
+.vscode/settings.json
+app/idealguidefe1/dist/*
+resources/*
+package-lock.json
