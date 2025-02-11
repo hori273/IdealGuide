@@ -1,0 +1,10 @@
+<mvc:View controllerName="myreservations.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m">
+    <Shell>
+        <App
+            class="myAppDemoWT"
+            id="app"/>
+    </Shell>
+</mvc:View>

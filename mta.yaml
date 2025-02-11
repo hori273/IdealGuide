@@ -7,14 +7,19 @@ modules:
   type: nodejs
   path: gen/srv
   requires:
-  - name: IdealGuide-auth
   - name: IdealGuide-db
+  - name: IdealGuide-auth
+  - name: IdealGuide-destination-service
+  - name: IdealGuide-connectivity
   provides:
   - name: srv-api
     properties:
       srv-url: ${default-url}
   parameters:
     buildpack: nodejs_buildpack
+    host: IdealGuide-app-api
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
   build-parameters:
     builder: npm
 - name: IdealGuide-db-deployer
@@ -24,27 +29,36 @@ modules:
   - name: IdealGuide-db
   parameters:
     buildpack: nodejs_buildpack
-- name: IdealGuide
-  type: approuter.nodejs
-  path: app/
+- name: IdealGuide-destination-content
+  type: com.sap.application.content
   requires:
-  - name: srv-api
-    group: destinations
-    properties:
-      forwardAuthToken: true
-      name: srv-api
-      url: ~{srv-url}
-  - name: IdealGuide-auth
   - name: IdealGuide-destination-service
-    group: destinations
-    properties:
-      forwardAuthToken: false
-      name: ui5
-      url: https://ui5.sap.com
+    parameters:
+      content-target: true
+  - name: IdealGuide_html_repo_host
+    parameters:
+      service-key:
+        name: IdealGuide_html_repo_host-key
+  - name: IdealGuide-auth
+    parameters:
+      service-key:
+        name: IdealGuide-auth-key
   parameters:
-    disk-quota: 256M
-    keep-existing-routes: true
-    memory: 256M
+    content:
+      instance:
+        destinations:
+        - Name: IdealGuide_IdealGuide_html_repo_host
+          ServiceInstanceName: IdealGuide-html5-app-host-service
+          ServiceKeyName: IdealGuide_html_repo_host-key
+          sap.cloud.service: IdealGuide
+        - Authentication: OAuth2UserTokenExchange
+          Name: IdealGuide_IdealGuide_auth
+          ServiceInstanceName: IdealGuide-auth
+          ServiceKeyName: IdealGuide-auth-key
+          sap.cloud.service: IdealGuide
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
 - name: IdealGuide-app-content
   type: com.sap.application.content
   path: .
@@ -59,6 +73,18 @@ modules:
       - idealguidefe1.zip
       name: idealguidefe1
       target-path: resources/
+    - artifacts:
+      - add_housing.zip
+      name: add_housing
+      target-path: resources/
+    - artifacts:
+      - myreservations.zip
+      name: myreservations
+      target-path: resources/
+    - artifacts:
+      - see_your_housing_reservations.zip
+      name: see_your_housing_reservations
+      target-path: resources/
 - name: idealguidefe1
   type: html5
   path: app/idealguidefe1
@@ -69,31 +95,63 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
+- name: see_your_housing_reservations
+  type: html5
+  path: app/see_your_housing_reservations
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: add_housing
+  type: html5
+  path: app/add_housing
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: myreservations
+  type: html5
+  path: app/myreservations
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
-- name: IdealGuide-auth
-  type: org.cloudfoundry.managed-service
-  parameters:
-    config:
-      tenant-mode: dedicated
-      xsappname: IdealGuide-${org}-${space}
-    path: ./xs-security.json
-    service: xsuaa
-    service-plan: application
 - name: IdealGuide-db
   type: com.sap.xs.hdi-container
   parameters:
     service: hana
     service-plan: hdi-shared
-- name: IdealGuide_html_repo_host
+  properties:
+    hdi-service-name: ${service-name}
+- name: IdealGuide-connectivity
   type: org.cloudfoundry.managed-service
   parameters:
-    service: html5-apps-repo
-    service-plan: app-host
+    service: connectivity
+    service-plan: lite
+- name: IdealGuide-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: IdealGuide
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
 - name: IdealGuide-destination-service
   type: org.cloudfoundry.managed-service
   parameters:
     config:
-      HTML5Runtime_enabled: false
+      HTML5Runtime_enabled: true
       init_data:
         instance:
           destinations:
@@ -102,11 +160,24 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: IdealGuide-app-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://IdealGuide-app-api.${default-domain}
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
     service-name: IdealGuide-destination-service
     service-plan: lite
+- name: IdealGuide_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: IdealGuide-html5-app-host-service
+    service-plan: app-host
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
@@ -114,4 +185,5 @@ build-parameters:
   before-all:
   - builder: custom
     commands:
+    - npm ci
     - npx cds build --production

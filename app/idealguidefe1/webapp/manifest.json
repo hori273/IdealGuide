@@ -138,6 +138,11 @@
           "pattern": "reservation/{id}/{price}",
           "name": "reservation",
           "target": "reservation"
+        },
+        {
+          "pattern": "feedbacks/{id}",
+          "name": "feedbacks",
+          "target": "feedbacks"
         }
       ],
       "targets": {
@@ -152,6 +157,11 @@
         "reservation": {
           "viewName": "Reservation",
           "viewId": "reservation",
+          "viewLevel": 2
+        },
+        "feedbacks":{
+          "viewName": "Feedbacks",
+          "viewId": "feedbacks",
           "viewLevel": 2
         }
       }

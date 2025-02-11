@@ -1,27 +1,75 @@
 <mvc:View
-	controllerName="idealguidefe1.controller.Detail"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:wt="idealguidefe1.control">
-	<Page
-		title="{i18n>detailPageTitle}"
-		showNavButton="true"
-		navButtonPress=".onNavBack">
-		<ObjectHeader 
-			responsive="true"
+    xmlns:core="sap.ui.core"
+    controllerName="idealguidefe1.controller.Detail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:wt="idealguidefe1.control"
+>
+    <Page
+        title="{i18n>detailPageTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+        <ObjectHeader
+            responsive="true"
             fullScreenOptimized="true"
-			intro="{STARS}" 
-			title="{NAME}">
-			<attributes>
+            intro="Stars: {STARS}"
+            title="{NAME}"
+        >
+            <attributes>
                 <ObjectAttribute
                     title="{i18n>phoneNumber}"
-                    text="{PHONE}"/>
-        	</attributes>
-		</ObjectHeader>
-		<wt:ProductRating 
-			id="rating" 
-			class="sapUiSmallMarginBeginEnd" 
-			change=".onRatingChange"/>
-		<Button text="Create a reservation" press=".onGoToReservation"/>
-	</Page>
+                    text="{PHONE}"
+                />
+                <ObjectAttribute
+                    title="{i18n>Address}"
+                    text="{ADDRESS}"
+                />
+            </attributes>
+        </ObjectHeader>
+
+        <HBox
+            alignItems="Center"
+            class="sapUiSmallMargin"
+        >
+            <core:Icon
+                src="sap-icon://favorite"
+                size="2rem"
+                color="gold"
+                tooltip="Rating Star"
+            />
+
+            <VBox>
+                <HBox
+                    alignItems="Center"
+                    class="sapUiNoMargin"
+                >
+                    <Text
+                        text="{viewModel>/averageRating}"
+                        class="sapUiNoMargin sapUiBold"
+                    />
+                    <Text
+                        text="/10"
+                        class="sapUiNoMargin"
+                    />
+                </HBox>
+
+                <Link
+                    text="{= ${viewModel>/feedbackNumber} + ' ratings' }"
+                    press=".onGoToFeedbacks"
+                    class="sapUiTinyMarginTop sapUiSmallMarginEnd"
+                />
+            </VBox>
+        </HBox>
+
+        <Button
+            text="Create a reservation"
+            press=".onGoToReservation"
+        />
+        <Carousel
+            id="imageCarousel"
+            class="sapUiContentPadding"
+            loop="true"
+        />
+    </Page>
 </mvc:View>

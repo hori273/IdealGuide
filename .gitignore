@@ -37,3 +37,9 @@ mta_archives/
 db/.env
 # auto generated wildcard
 .env
+app/add_housing/dist/*
+app/myreservations/dist/*
+app/see_your_housing_reservations/dist/*
+resources/*
+app/idealguidefe1/*
+app/idealguidefe1/webapp/config.json

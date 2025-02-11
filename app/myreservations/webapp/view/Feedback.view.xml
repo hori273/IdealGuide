@@ -1,0 +1,83 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    controllerName="myreservations.controller.Feedback">
+    
+    <VBox class="sapUiSmallMargin">
+        <f:Form
+            id="FormFeedback"
+            editable="true"
+            ariaLabelledBy="Title1">
+            <f:toolbar>
+                <Toolbar id="TB1">
+                    <Title
+                        id="Title1"
+                        text="{i18n>feedbackPageTitle}"/>
+                </Toolbar>
+            </f:toolbar>
+            
+            <f:layout>
+                <f:ResponsiveGridLayout
+                    labelSpanXL="4"
+                    labelSpanL="3"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0"
+                    emptySpanL="4"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="2"
+                    columnsL="1"
+                    columnsM="1"
+                    singleContainerFullSize="false"/>
+            </f:layout>
+            
+            <f:formContainers>
+                <f:FormContainer ariaLabelledBy="Title2">
+                    <f:formElements>
+                        
+                        <!-- Rating Field -->
+                        <f:FormElement label="Rate your stay">
+                            <f:fields>
+                                <RatingIndicator
+                                    id="rating"
+                                    maxValue="10"
+                                    value="0"
+                                    visualMode="Half"
+                                    tooltip="Please rate from 1 to 10 stars"
+                                />
+                            </f:fields>
+                        </f:FormElement>
+                        
+                        <!-- Feedback Text Area -->
+                        <f:FormElement label="Tell us about your stay">
+                            <f:fields>
+                                <TextArea
+                                    id="feedbackTextArea"
+                                    placeholder="Write your feedback here..."
+                                    width="100%"
+                                    rows="5"
+                                />
+                            </f:fields>
+                        </f:FormElement>
+                        
+                        <!-- Submit Button -->
+                        <f:FormElement label="">
+                            <f:fields>
+                                <Button
+                                    text="Submit Feedback"
+                                    type="Emphasized"
+                                    press=".onSubmitFeedback"
+                                />
+                            </f:fields>
+                        </f:FormElement>
+                    </f:formElements>
+                </f:FormContainer>
+            </f:formContainers>
+        </f:Form>
+    </VBox>
+</mvc:View>

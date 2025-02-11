@@ -12,12 +12,45 @@ sap.ui.define([
             onInit: function () {
 
             },
+            
             onShowHello: function () {
-                const oBundle = this.getView().getModel("i18n").getResourceBundle();
-                const sRecipient = this.getView().getModel("tutorialModel").getProperty("/recipient/name");
-                const sMsg = oBundle.getText("Hello " + sRecipient);
-                sap.m.MessageToast.show(sMsg);
+                const oModel = this.getView().getModel("tutorialModel"); 
+                const sRecipientName = oModel.getProperty("/recipient/name") || "Despre Medias";   
+
+                const sPrompt = `${sRecipientName}`;
+            
+                $.getJSON("config.json")
+                .done((config) => {
+                    const sApiKey = config.OPENAI_API_KEY;
+                
+                    const oData = {
+                        model: "gpt-4o-mini", //3.5-turbo
+                        messages: [
+                            { role: "user", content: sPrompt }
+                        ]
+                    };
+            
+                    $.ajax({
+                        url: "https://api.openai.com/v1/chat/completions",
+                        method: "POST",
+                        contentType: "application/json",
+                        headers: {
+                            "Authorization": `Bearer ${sApiKey}` 
+                        },
+                        data: JSON.stringify(oData),
+                        success: function (oResponse) {
+                            const sResponseText = oResponse.choices && oResponse.choices[0].message.content;
+                            
+                            sap.m.MessageToast.show(sResponseText || "No response received");
+                        },
+                        error: function (err) {
+                            console.error(err);
+                            sap.m.MessageToast.show("Error calling OpenAI API");
+                        }
+                    });
+                });
             },
+            
             onOpenDialog: function() {
                 this.pDialog ??= this.loadFragment({
                     name: "idealguidefe1.view.HelloDialog"

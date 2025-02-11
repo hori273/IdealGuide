@@ -18,7 +18,7 @@
             <Toolbar>
                 <Title text="{i18n>invoiceListTitle}" />
                 <ToolbarSpacer />
-                <Button text="Toggle Model" press=".onToggleModel" />
+                <Button text="See Recommended" press=".onToggleModel" />
                 <ToolbarSpacer />
                 <SearchField
                     width="50%"

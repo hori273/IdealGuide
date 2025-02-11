@@ -1,0 +1,129 @@
+<mvc:View
+    controllerName="seeyourhousingreservations.controller.SeeYourHousingReservations"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+>
+    <Table
+        id="reservationList"
+        class="sapUiResponsiveMargin"
+        width="auto"
+        items="{
+            path : '/HOUSING_RESERVATIONS'
+        }"
+    >
+        <headerToolbar>
+            <Toolbar>
+                <Title text="{i18n>reservationListTitle}" />
+                <ToolbarSpacer />
+                <SearchField
+                    width="50%"
+                    search=".onFilterReservations"
+                />
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column
+                minScreenWidth="Tablet"
+                demandPopin="false"
+            >
+                <Text text="{i18n>columnPlaceName}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnClientEmail}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnDate}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnNrPersons}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnNrNights}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnTotalPrice}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnStatus}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnApprove}" />
+            </Column>
+            <Column hAlign="End">
+                <Text text="{i18n>columnDelete}" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem type="Navigation">
+                <cells>
+                    <Text text="{PLACE_ID_ID}" />
+                    <Text text="{CLIENT_EMAIL}" class="wrapEmail"/>
+                    <Text
+                        text="{
+                            path: 'DATE_TIME',
+                            formatter: '.formatter.formatDate'
+                        }"
+                    />
+                    <Text text="{NR_PERSONS}" />
+                    <Text text="{NR_NIGHTS}" />
+                    <ObjectNumber
+                        number="{
+                                parts: [
+                                    'TOTAL_PRICE',
+                                    'view>/currency'
+                                ],
+                                type: 'sap.ui.model.type.Currency',
+                                formatOptions: {
+                                    showMeasure: false
+                                }
+                            }"
+                        unit="{view>/currency}"
+                    />
+                    <ObjectStatus
+							text="{STATUS}"
+							icon="{path: 'STATUS', formatter: '.formatter.iconState'}"
+							state="{path: 'STATUS', formatter: '.formatter.statusState'}" />
+                    <Button
+                        text="Approve"
+                        press=".onApproveReservation"
+                        enabled="{
+                            parts: [
+                                {path: 'STATUS'},
+                                {path: 'DATE_TIME'}
+                            ],
+                            formatter: '.formatter.isApproveEnabled'
+                        }"
+                    >
+                        <customData>
+                            <core:CustomData
+                                id="_IDGenCustomData2"
+                                key="reservationId"
+                                value="{ID}"
+                            />
+                        </customData>
+                    </Button>
+                    <Button
+                        text="Cancel"
+                        press=".onDeleteReservation"
+                        enabled="{
+                            parts: [
+                                {path: 'STATUS'},
+                                {path: 'DATE_TIME'}
+                            ],
+                            formatter: '.formatter.isCancelEnabled'
+                        }"
+                    >
+                        <customData>
+                            <core:CustomData
+                                id="_IDGenCustomData1"
+                                key="reservationId"
+                                value="{ID}"
+                            />
+                        </customData>
+                    </Button>
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</mvc:View>

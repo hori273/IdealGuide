@@ -58,11 +58,27 @@ sap.ui.define([
 
 		onPress(oEvent) {
 			const oItem = oEvent.getSource();
-			const oRouter = this.getOwnerComponent().getRouter();
-			oRouter.navTo("detail", {
-				housingPath: window.encodeURIComponent(oItem.getBindingContext().getPath().substr(1))
-			});
-		}
+			const oContext = oItem.getBindingContext();
+			if (oContext) {
+				const sPath = oContext.getPath();
+				const oModel = oContext.getModel();
+				const oData = oModel.getProperty(sPath);
+		
+				// Assuming the key for HOUSING is 'ID'
+				const sKey = oData.ID;
+		
+				if (sKey) {
+					const oRouter = this.getOwnerComponent().getRouter();
+					oRouter.navTo("detail", {
+						housingPath: window.encodeURIComponent(`HOUSING(${sKey})`)
+					});
+				} else {
+					console.error("No key value found for the selected item.");
+				}
+			} else {
+				console.error("No binding context found for the selected item.");
+			}
+		}		
 		
 	});
 });

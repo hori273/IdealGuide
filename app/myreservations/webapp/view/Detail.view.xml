@@ -1,0 +1,70 @@
+<mvc:View
+    controllerName="myreservations.controller.Detail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:wt="myreservations.control"
+	xmlns:core="sap.ui.core"
+>
+    <Page
+        title="{i18n>detailPageTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+        <ObjectHeader
+            responsive="true"
+            fullScreenOptimized="true"
+            intro="Date: { path: 'DATE_TIME', formatter: '.formatter.formatDate' }"
+            title="{viewModel>/placeId}"
+        >
+            <attributes>
+                <ObjectAttribute
+                    title="{i18n>totalPrice}"
+                    text="{TOTAL_PRICE}"
+                />
+                <ObjectAttribute
+                    title="{i18n>Status}"
+                    text="{STATUS}"
+                />
+                <ObjectAttribute
+                    title="{i18n>nrPersons}"
+                    text="{NR_PERSONS}"
+                />
+                <ObjectAttribute
+                    title="{i18n>nrNights}"
+                    text="{NR_NIGHTS}"
+                />
+            </attributes>
+        </ObjectHeader>
+        <Button
+            text="Cancel Reservation"
+            enabled="{
+                    parts: [
+                        {path: 'STATUS', targetType: 'any'},
+                        {path: 'DATE_TIME', targetType: 'any'}
+                    ],
+                    formatter: '.formatter.isDeletable'
+            }"
+            press=".onDeleteReservation"
+        >
+            <customData>
+                <core:CustomData
+                    key="reservationId"
+                    value="{ID}"
+                />
+            </customData>
+        </Button>
+        <Button text="Give Feedback" 
+                enabled="{
+                            parts: [
+                                {path: 'DATE_TIME', targetType: 'any'},
+                                {path: 'STATUS', targetType: 'any'}
+                            ],
+                            formatter: '.formatter.isFeedbackAvailable'
+                        }"
+                visible="{path: 'ID', targetType: 'any', formatter: '.isFeedbackAvailable'}"
+                press=".onGoToFeedback"/>
+        <Button text="Edit Your Feedback" 
+                visible="{path: 'ID', targetType: 'any', formatter: '.isEditAvailable'}"
+                press=".onGoToEditFeedback"/>
+    </Page>
+</mvc:View>

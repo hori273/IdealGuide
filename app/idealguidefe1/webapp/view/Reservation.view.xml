@@ -38,21 +38,13 @@
             <f:formContainers>
                 <f:FormContainer ariaLabelledBy="Title2">
                     <f:formElements>
-                        <f:FormElement label="Number of People">
-                            <f:fields>
-                                <Input
-                                    value="{/numberOfPeople}"
-                                    type="Number"
-                                    id="numberOfPeople"
-                                    change=".calculateNights"/>
-                            </f:fields>
-                        </f:FormElement>
                         <f:FormElement label="Check-in Date">
                             <f:fields>
                                 <DatePicker
                                     value="{/checkInDate}"
                                     id="checkInDate"
-                                    change=".calculateNights"/>
+                                    change=".calculateNights"
+                                    navigate=".onNavigate"/>
                             </f:fields>
                         </f:FormElement>
                         <f:FormElement label="Check-out Date">
@@ -60,6 +52,22 @@
                                 <DatePicker
                                     value="{/checkOutDate}"
                                     id="checkOutDate"
+                                    change=".calculateNights"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="Maximum Allowed People">
+                            <f:fields>
+                                <Text
+                                    id="maxPeopleText"
+                                    text="{/maxPeopleAllowed}"/>
+                            </f:fields>
+                        </f:FormElement>
+                        <f:FormElement label="Number of People">
+                            <f:fields>
+                                <Input
+                                    value="{/numberOfPeople}"
+                                    type="Number"
+                                    id="numberOfPeople"
                                     change=".calculateNights"/>
                             </f:fields>
                         </f:FormElement>
