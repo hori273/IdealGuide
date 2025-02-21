@@ -45,6 +45,12 @@
                                 </f:fields>
                             </f:FormElement>
 
+                            <f:FormElement label="Select Address on Map">
+                                <f:fields>
+                                    <core:HTML id="mapContainer"/>
+                                </f:fields>
+                            </f:FormElement>
+
                             <f:FormElement label="Address">
                                 <f:fields>
                                     <TextArea id="address" rows="3" />

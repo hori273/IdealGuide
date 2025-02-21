@@ -2,7 +2,10 @@ using app.datamodel from '../db/datamodel';
 
 service CatalogService{
     @odata.draft.enabled: false
+    @cds.redirection.target: true
     entity HOUSING as projection on datamodel.HOUSING;
+    @odata.draft.enabled: true
+    entity MYHOUSING as projection on datamodel.HOUSING;
     entity PUBS as projection on datamodel.PUBS;
     @odata.draft.enabled: false
     entity HOUSING_RESERVATIONS as projection on datamodel.RESERVATION_HOUSING;
@@ -42,4 +45,6 @@ service CatalogService{
     function getFullyBookedDatesForHousing(housingId: String, year: Integer, month: Integer) returns String;
     function getAvailableCapacityForPeriod(housingId: String, day: Integer, month: Integer, year:Integer, nights: Integer) returns Integer;
     function insertHousing(type: String, name: String, email: String, phone: String, address: String, currency: String, stars: Integer, pricePerNight: Integer, capacity: Integer, description: String) returns Boolean;
+    function getHousingAddresses() returns String;
+    function getPreferredHousingAddress(userEmail:String) returns String;
 }

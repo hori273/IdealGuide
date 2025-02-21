@@ -85,6 +85,10 @@ modules:
       - see_your_housing_reservations.zip
       name: see_your_housing_reservations
       target-path: resources/
+    - artifacts:
+      - seeyourhousing.zip
+      name: seeyourhousing
+      target-path: resources/
 - name: idealguidefe1
   type: html5
   path: app/idealguidefe1
@@ -118,6 +122,16 @@ modules:
 - name: myreservations
   type: html5
   path: app/myreservations
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: seeyourhousing
+  type: html5
+  path: app/see_your_housing
   build-parameters:
     build-result: dist
     builder: custom
@@ -167,11 +181,20 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://IdealGuide-app-api.${default-domain}
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: IdealGuide-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
     service-name: IdealGuide-destination-service
     service-plan: lite
+  requires:
+  - name: srv-api
 - name: IdealGuide_html_repo_host
   type: org.cloudfoundry.managed-service
   parameters:

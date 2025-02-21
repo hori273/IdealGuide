@@ -711,4 +711,74 @@ module.exports = cds.service.impl(async function () {
          return true;
     });
 
+    this.on("getHousingAddresses", async (req) => {
+        const tx = cds.transaction(req);
+        try {
+            let qAddresses = SELECT.from(HOUSING).columns('ADDRESS');
+            const aAddresses = await tx.run(qAddresses);
+    
+            if (aAddresses.length === 0) {
+                return `No addresses found.`;
+            }
+            
+            return JSON.stringify(aAddresses.map(row => row.ADDRESS));
+    
+        } catch (error) {
+            console.error("Error fetching addresses:", error);
+            return `Failed to fetch addresses.`;
+        }
+    });
+
+    this.on("getPreferredHousingAddress", async (req) => {
+        try {
+            const tx = cds.transaction(req);
+            let sUserEmail = req.data.userEmail;
+    
+            let qReservations = SELECT.from(HOUSING_RESERVATIONS)
+                .where({ CLIENT_EMAIL: sUserEmail, STATUS: 'completed' });
+    
+            const aReservations = await tx.run(qReservations).catch(function (error) {
+                console.warn(error);
+                return null;
+            });
+    
+            if (!aReservations || aReservations.length === 0) {
+                return JSON.stringify({ error: "No completed reservations found for the user." });
+            }
+    
+            let housingCount = {};
+            for (let reservation of aReservations) {
+                let housingId = reservation.PLACE_ID_ID;
+                if (!housingCount[housingId]) {
+                    housingCount[housingId] = 0;
+                }
+                housingCount[housingId]++;
+            }
+    
+            let preferredHousingId = Object.keys(housingCount).reduce((a, b) => 
+                housingCount[a] > housingCount[b] ? a : b
+            );
+    
+            let qHousing = SELECT.from(HOUSING).where({ ID: preferredHousingId });
+            const aHousing = await tx.run(qHousing).catch(function (error) {
+                console.warn(error);
+                return null;
+            });
+    
+            if (!aHousing || aHousing.length === 0) {
+                return JSON.stringify({ error: "Preferred housing not found." });
+            }
+    
+            let preferredHousing = aHousing[0];
+            return JSON.stringify({
+                name: preferredHousing.NAME,
+                address: preferredHousing.ADDRESS
+            });
+    
+        } catch (error) {
+            console.log(error);
+            return JSON.stringify({ error: "Error occurred while fetching preferred housing." });
+        }
+    });
+
 });           
