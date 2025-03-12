@@ -1,0 +1,9 @@
+{
+  "namespace": "app.datamodel",
+  "definitions": {},
+  "meta": {
+    "creator": "CDS Compiler v4.4.4",
+    "build": "CDS Build v7.4.2"
+  },
+  "$version": "2.0"
+}

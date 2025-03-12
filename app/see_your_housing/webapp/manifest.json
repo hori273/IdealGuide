@@ -1,7 +1,7 @@
 {
   "_version": "1.65.0",
   "sap.app": {
-    "id": "seeyourMYHOUSING",
+    "id": "seeyourhousing",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -22,6 +22,19 @@
         "settings": {
           "annotations": [],
           "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "IdealGuide-seehousing": {
+          "semanticObject": "IdealGuide",
+          "action": "seehousing",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
         }
       }
     }
@@ -60,7 +73,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "seeyourMYHOUSING.i18n.i18n"
+          "bundleName": "seeyourhousing.i18n.i18n"
         }
       },
       "": {

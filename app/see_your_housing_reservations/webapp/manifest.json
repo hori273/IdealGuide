@@ -34,9 +34,9 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "Rezervarile la o cazare-Aprobari si respingeri": {
-          "semanticObject": "Rezervarile la o cazare",
-          "action": "Aprobari si respingeri",
+        "IdealGuide-housingreservation": {
+          "semanticObject": "IdealGuide",
+          "action": "housingreservation",
           "title": "{{flpTitle}}",
           "signature": {
             "parameters": {},
@@ -144,5 +144,9 @@
       "async": true,
       "id": "app"
     }
-  }
+  },
+	"sap.cloud": {
+		"public": true,
+		"service": "IdealGuide"
+	}
 }
