@@ -73,9 +73,65 @@ modules:
       - idealguidefe1.zip
       name: idealguidefe1
       target-path: resources/
+    - artifacts:
+      - add_housing.zip
+      name: add_housing
+      target-path: resources/
+    - artifacts:
+      - myreservations.zip
+      name: myreservations
+      target-path: resources/
+    - artifacts:
+      - see_your_housing_reservations.zip
+      name: see_your_housing_reservations
+      target-path: resources/
+    - artifacts:
+      - seeyourhousing.zip
+      name: seeyourhousing
+      target-path: resources/
 - name: idealguidefe1
   type: html5
   path: app/idealguidefe1
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: see_your_housing_reservations
+  type: html5
+  path: app/see_your_housing_reservations
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: add_housing
+  type: html5
+  path: app/add_housing
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: myreservations
+  type: html5
+  path: app/myreservations
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: seeyourhousing
+  type: html5
+  path: app/see_your_housing
   build-parameters:
     build-result: dist
     builder: custom

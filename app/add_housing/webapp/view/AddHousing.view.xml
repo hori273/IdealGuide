@@ -1,0 +1,126 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    controllerName="addhousing.controller.AddHousing">
+    <Page id="page" title="Add Housing">
+        <content>
+            <f:Form id="addHousingForm" editable="true">
+                <f:layout>
+                    <f:ResponsiveGridLayout labelSpanM="4" labelSpanL="3" />
+                </f:layout>
+                <f:formContainers>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <!-- Housing Type -->
+                            <f:FormElement label="Type">
+                                <f:fields>
+                                    <Select id="typeSelect">
+                                        <items>
+                                            <core:Item key="HOTEL" text="Hotel" />
+                                            <core:Item key="PENSIUNE" text="Pensiune" />
+                                        </items>
+                                    </Select>
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Housing Name -->
+                            <f:FormElement label="Name">
+                                <f:fields>
+                                    <Input id="nameInput" placeholder="Enter housing name" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Phone Number -->
+                            <f:FormElement label="Phone Number">
+                                <f:fields>
+                                    <Input id="phoneInput" type="Number" placeholder="Enter phone number" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <f:FormElement label="Email">
+                                <f:fields>
+                                    <Input id="emailInput" placeholder="Enter email" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <f:FormElement label="Select Address on Map">
+                                <f:fields>
+                                    <core:HTML id="mapContainer"/>
+                                </f:fields>
+                            </f:FormElement>
+
+                            <f:FormElement label="Address">
+                                <f:fields>
+                                    <TextArea id="address" rows="3" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Currency -->
+                            <f:FormElement label="Currency">
+                                <f:fields>
+                                    <Select id="currencySelect">
+                                        <items>
+                                            <core:Item key="RON" text="RON" />
+                                            <core:Item key="EUR" text="EUR" />
+                                            <core:Item key="USD" text="USD" />
+                                            <core:Item key="GBP" text="GBP" />
+                                        </items>
+                                    </Select>
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Stars -->
+                            <f:FormElement label="Stars">
+                                <f:fields>
+                                    <RatingIndicator id="starsIndicator" maxValue="5" value="1" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <f:FormElement >
+                                <f:fields>
+            
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Price Per Night -->
+                            <f:FormElement label="Price Per Night">
+                                <f:fields>
+                                    <Input
+                                        id="priceInput"
+                                        type="Number"
+                                        placeholder="Enter price per night" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Total Capacity -->
+                            <f:FormElement label="Total Capacity">
+                                <f:fields>
+                                    <Input
+                                        id="capacityInput"
+                                        type="Number"
+                                        placeholder="Enter total capacity"/>
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Description -->
+                            <f:FormElement label="Description">
+                                <f:fields>
+                                    <TextArea id="description" rows="3" />
+                                </f:fields>
+                            </f:FormElement>
+
+                            <!-- Submit Button -->
+                            <f:FormElement>
+                                <f:fields>
+                                    <Button text="Submit" press=".onSubmit" />
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                </f:formContainers>
+            </f:Form>
+        </content>
+    </Page>
+</mvc:View>

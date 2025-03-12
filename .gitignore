@@ -37,7 +37,9 @@ mta_archives/
 db/.env
 # auto generated wildcard
 .env
-.vscode/settings.json
-app/idealguidefe1/dist/*
+app/add_housing/dist/*
+app/myreservations/dist/*
+app/see_your_housing_reservations/dist/*
 resources/*
-package-lock.json
+app/idealguidefe1/*
+app/idealguidefe1/webapp/config.json

@@ -44,7 +44,7 @@ type PUBS_TYPE    : String enum {
 entity HOUSING_IMAGES {
   key ID       : UUID;
       PLACE_ID : Association to HOUSING;
-      IMAGE    : String;
+      IMAGE    :  String;
 }
 
 entity PUBS_IMAGES {
@@ -149,4 +149,12 @@ entity RESERVATION_PUBS {
 entity EXCHANGE_RATES {
   key NAME  : String;
       VALUE : Double;
+}
+
+entity HOUSING_FEEDBACK {
+  key ID :UUID;
+      RESERVATION: Association to RESERVATION_HOUSING;
+      RATING: Integer;
+      DESCRIPTION: String;
+      DATE: Date;
 }

@@ -1,0 +1,11 @@
+.statusApproved {
+    color: green;
+}
+
+.statusPending {
+    color: yellow;
+}
+
+.statusCancelled {
+    color: red;
+}

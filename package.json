@@ -1,37 +1,46 @@
 {
-    "name": "IdealGuide",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap/cds": "^7",
-        "@sap/cds-hana": "^2",
-        "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
-        "@sap/hana-client": "^2.19.20",
-        "@sap/hdi-deploy": "^4",
-        "@sap/xsenv": "^3",
-        "@sap/xssec": "^3",
-        "express": "^4",
-        "passport": "^0"
-    },
-    "devDependencies": {
-        "@cap-js/sqlite": "^1",
-        "@sap/cds-dk": "^7",
-        "@sap/ux-specification": "^1.120.4",
-        "rimraf": "^3.0.2"
-    },
-    "scripts": {
-        "start": "cds-serve",
-        "watch-idealguidefe1": "cds watch --open idealguidefe1/webapp/index.html?sap-ui-xx-viewCache=false",
-        "undeploy": "cf undeploy IdealGuide --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
-    },
-    "cds": {
-        "requires": {
-            "db": "hana"
-        }
+  "name": "IdealGuide",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/hana-client": "^2.19.20",
+    "@sap/hdi-deploy": "^4",
+    "@sap/xsenv": "^3",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.120.9",
+    "rimraf": "^3.0.2",
+    "mbt": "^1.2.29"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-idealguidefe1": "cds watch --open idealguidefe1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy IdealGuide --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-myreservations": "cds watch --open myreservations/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-see_your_housing_reservations": "cds watch --open see_your_housing_reservations/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-add_housing": "cds watch --open add_housing/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-see_your_housing": "cds watch --open see_your_housing/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "db": "hana"
     }
+  },
+  "sapux": [
+    "app/see_your_housing_reservations",
+    "app/see_your_housing"
+  ]
 }
