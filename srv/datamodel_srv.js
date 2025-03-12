@@ -714,14 +714,19 @@ module.exports = cds.service.impl(async function () {
     this.on("getHousingAddresses", async (req) => {
         const tx = cds.transaction(req);
         try {
-            let qAddresses = SELECT.from(HOUSING).columns('ADDRESS');
+            let qAddresses = SELECT.from(HOUSING).columns('ID', 'NAME', 'ADDRESS');
             const aAddresses = await tx.run(qAddresses);
     
             if (aAddresses.length === 0) {
                 return `No addresses found.`;
             }
             
-            return JSON.stringify(aAddresses.map(row => row.ADDRESS));
+            return JSON.stringify(aAddresses.map(row => ({
+                id: row.ID,
+                name: row.NAME,
+                address: row.ADDRESS
+            })));
+    
     
         } catch (error) {
             console.error("Error fetching addresses:", error);

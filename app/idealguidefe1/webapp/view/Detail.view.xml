@@ -23,10 +23,18 @@
                 />
                 <ObjectAttribute
                     title="{i18n>Address}"
-                    text="{ADDRESS}"
+                    text="{ path: 'ADDRESS', formatter: '.formatAddress' }"
                 />
             </attributes>
         </ObjectHeader>
+
+        <VBox class="sapUiContentPadding">
+            <Button
+                text="Show Map"
+                press=".onShowMap"
+            />
+            <core:HTML id="mapContainer"/>
+        </VBox>
 
         <HBox
             alignItems="Center"

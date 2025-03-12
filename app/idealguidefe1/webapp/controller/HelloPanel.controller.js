@@ -1,6 +1,7 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageToast",
+    "sap/m/ActionSheet",
     "sap/ui/core/HTML"
 ], function (Controller, MessageToast, HTML) {
     "use strict";
@@ -212,10 +213,10 @@ sap.ui.define([
             const preferredHousing = JSON.parse(oPreferredHousingResult.value);
         
             for (const address of addresses) {
-                geocoder.geocode({ address: address }, function (results, status) {
+                geocoder.geocode({ address: address.address }, (results, status) => {
                     if (status === "OK") {
-                        const isPreferred = address === preferredHousing.address;
-                        const isRecommended = recommendedHousingDetails.some(housing => housing.address === address)
+                        const isPreferred = address.address === preferredHousing.address;
+                        const isRecommended = recommendedHousingDetails.some(housing => housing.address === address.address)
                         let iconUrl;
                         if (isPreferred) {
                             iconUrl = "./images/star.png";
@@ -224,22 +225,78 @@ sap.ui.define([
                         } else {
                             iconUrl = undefined; 
                         }
-                        new google.maps.Marker({
+                        const marker = new google.maps.Marker({
                             position: results[0].geometry.location,
                             map: map,
-                            title: address,
+                            title: `Name: ${address.name}\nAddress: ${address.address}`,
                             icon: iconUrl ? {
                                 url: iconUrl,
                                 scaledSize: new google.maps.Size(48, 48) 
                             } : undefined
                         });
-                    } else {
-                        console.error("Geocoding failed for " + address + ": " + status);
-                        MessageToast.show("Error: Could not find location - " + address);
+        
+                        marker.addListener('click', () => {
+                            const lat = results[0].geometry.location.lat();
+                            const lng = results[0].geometry.location.lng();
+                            const encodedAddress = encodeURIComponent(address.address);
+                        
+                            if (!this._oLocationDialog) {
+                                this._oLocationDialog = new sap.m.Dialog({
+                                    title: "Select Action",
+                                    content: [],
+                                    beginButton: new sap.m.Button({
+                                        text: "Close",
+                                        press: function () {
+                                            this.getParent().close(); // Close dialog
+                                        }
+                                    })
+                                });
+                        
+                                this.getView().addDependent(this._oLocationDialog);
+                            }
+                        
+                            this._oLocationDialog.removeAllContent();
+                        
+                            const oWazeButton = new sap.m.Button({
+                                text: "Directions with Waze",
+                                icon: "sap-icon://car-rental",
+                                press: () => {
+                                    window.open(`https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`, "_blank");
+                                }
+                            });
+                        
+                            const oGoogleMapsButton = new sap.m.Button({
+                                text: "Directions with Google Maps",
+                                icon: "sap-icon://map",
+                                press: () => {
+                                    window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, "_blank");
+                                }
+                            });
+                        
+                            const oDetailPageButton = new sap.m.Button({
+                                text: "Go to Detail Page",
+                                icon: "sap-icon://navigation-right-arrow",
+                                press: () => {
+                                    const oRouter = this.getOwnerComponent().getRouter();
+                                    oRouter.navTo("detail", {
+                                        housingPath: window.encodeURIComponent(`HOUSING(${address.id})`)
+                                    });
+                                }
+                            });
+                        
+                            this._oLocationDialog.addContent(oWazeButton);
+                            this._oLocationDialog.addContent(oGoogleMapsButton);
+                            this._oLocationDialog.addContent(oDetailPageButton);
+                        
+                            this._oLocationDialog.open();
+                        });                        
+                        
+                } else {
+                        console.error("Geocoding failed for " + address.address + ": " + status);
+                        MessageToast.show("Error: Could not find location - " + address.address);
                     }
                 });
             }
         }
-
     });
 });
