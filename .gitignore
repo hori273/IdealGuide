@@ -43,3 +43,4 @@ app/see_your_housing_reservations/dist/*
 resources/*
 app/idealguidefe1/*
 app/idealguidefe1/webapp/config.json
+.vscode/settings.json
